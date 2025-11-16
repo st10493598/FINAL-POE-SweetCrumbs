@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order - Sweet Crumbs Bakery</title>
+    <meta name="description" content="Order online from Sweet Crumbs Bakery in Thohoyandou. Pre-order custom cakes, cupcakes, and muffins for pickup or delivery. Fresh baked goods daily.">
+    <meta name="keywords" content="order bakery Thohoyandou, custom cakes Limpopo, cupcakes South Africa, muffins delivery Sweet Crumbs Bakery, online pre-order">
+    <meta name="author" content="Sweet Crumbs Bakery">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sweetcrumbs.co.za/Pages/order.html">
+    <meta property="og:title" content="Order - Sweet Crumbs Bakery">
+    <meta property="og:description" content="Place your order for fresh baked goods from Sweet Crumbs Bakery. Custom cakes, cupcakes, and muffins available for pickup or delivery.">
+    <meta property="og:image" content="https://sweetcrumbs.co.za/Assets/cupcake1.jpeg">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sweetcrumbs.co.za/Pages/order.html">
+    <meta property="twitter:title" content="Order - Sweet Crumbs Bakery">
+    <meta property="twitter:description" content="Place your order for fresh baked goods from Sweet Crumbs Bakery. Custom cakes, cupcakes, and muffins available for pickup or delivery.">
+    <meta property="twitter:image" content="https://sweetcrumbs.co.za/Assets/cupcake1.jpeg">
+    <link rel="stylesheet" href="../Css/styles.css">
+    <script src="../Js/enquiry.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Sweet Crumbs Bakery</h1>
+        <input type="checkbox" id="menu-toggle" style="display: none;">
+        <label for="menu-toggle" class="hamburger">☰</label>
+        <nav>
+            <ul>
+                  <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="order.html">Order</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="enquiry.html">Enquiry</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Online Pre-Order Form</h2>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="item">Select Item:</label>
+                    <select id="item" name="item">
+                        <option value="">Please select an item</option>
+                        <option value="chocolate_cake">Chocolate Cake - R120</option>
+                        <option value="vanilla_cake">Vanilla Cake - R110</option>
+                        <option value="red_velvet_cake">Red Velvet Cake - R130</option>
+                        <option value="carrot_cake">Carrot Cake - R125</option>
+                        <option value="vanilla_cupcake">Vanilla Cupcake - R15 each</option>
+                        <option value="chocolate_cupcake">Chocolate Cupcake - R16 each</option>
+                        <option value="red_velvet_cupcake">Red Velvet Cupcake - R18 each</option>
+                        <option value="assorted_dozen">Assorted Dozen Cupcakes - R180</option>
+                        <option value="blueberry_muffin">Blueberry Muffin - R12 each</option>
+                        <option value="chocolate_chip_muffin">Chocolate Chip Muffin - R14 each</option>
+                        <option value="banana_nut_muffin">Banana Nut Muffin - R13 each</option>
+                        <option value="custom_cake">Custom Cake (Contact for pricing)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1">
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Pickup/Delivery Date:</label>
+                    <input type="date" id="date" name="date">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Special Instructions:</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <p id="totalPrice">Total: R0</p>
+                </div>
+
+                <button type="submit">Submit Order</button>
+                <div id="errorMessages"></div>
+            </form>
+            <div id="confirmation" style="display: none;">
+                <h3>Thank you for your order!</h3>
+                <p>We have received your pre-order. We will contact you soon to confirm details.</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Sweet Crumbs Bakery. All rights reserved.</p>
+        <div class="social-media">
+            <a href="https://www.facebook.com/sweetcrumbsbakery" target="_blank" rel="noopener">Facebook</a>
+            <a href="https://www.instagram.com/sweetcrumbsbakery" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://twitter.com/sweetcrumbsbak" target="_blank" rel="noopener">Twitter</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('orderForm');
+            const itemSelect = document.getElementById('item');
+            const quantityInput = document.getElementById('quantity');
+            const totalPrice = document.getElementById('totalPrice');
+            const errorMessages = document.getElementById('errorMessages');
+            const confirmation = document.getElementById('confirmation');
+
+            function calculateTotal() {
+                const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+                if (!selectedOption.value) {
+                    totalPrice.textContent = 'Total: R0';
+                    return;
+                }
+                const text = selectedOption.text;
+                const priceMatch = text.match(/R(\d+)/);
+                if (!priceMatch) {
+                    totalPrice.textContent = 'Total: Contact for pricing';
+                    return;
+                }
+                let price = parseInt(priceMatch[1]);
+                const quantity = parseInt(quantityInput.value) || 1;
+                if (text.includes('each')) {
+                    price *= quantity;
+                } else if (text.includes('Dozen')) {
+                    price *= quantity;
+                }
+                totalPrice.textContent = 'Total: R' + price;
+            }
+
+            itemSelect.addEventListener('change', calculateTotal);
+            quantityInput.addEventListener('input', calculateTotal);
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                errorMessages.innerHTML = '';
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const item = itemSelect.value;
+                const quantity = quantityInput.value;
+                const date = document.getElementById('date').value;
+
+                let errors = [];
+
+                if (!name) errors.push('Full Name is required.');
+                if (!email) errors.push('Email is required.');
+                else if (!/\S+@\S+\.\S+/.test(email)) errors.push('Email is invalid.');
+                if (!phone) errors.push('Phone Number is required.');
+                if (!item) errors.push('Please select an item.');
+                if (!quantity || quantity < 1) errors.push('Quantity must be at least 1.');
+                if (!date) errors.push('Pickup/Delivery Date is required.');
+                else {
+                    const selectedDate = new Date(date);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (selectedDate < today) errors.push('Date must be today or later.');
+                }
+
+                if (errors.length > 0) {
+                    errorMessages.innerHTML = '<ul>' + errors.map(e => '<li>' + e + '</li>').join('') + '</ul>';
+                    return;
+                }
+
+                // If valid, show confirmation
+                form.style.display = 'none';
+                confirmation.style.display = 'block';
+
+                // Optionally, log the order data
+                console.log({
+                    name, email, phone, item, quantity, date, message: document.getElementById('message').value
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

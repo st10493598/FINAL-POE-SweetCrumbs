@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Sweet Crumbs Bakery</title>
+    <meta name="description" content="Register an account with Sweet Crumbs Bakery to place orders and receive updates on our fresh baked goods.">
+    <meta name="keywords" content="register Sweet Crumbs Bakery, create account bakery Thohoyandou, user registration Limpopo">
+    <meta name="author" content="Sweet Crumbs Bakery">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sweetcrumbs.co.za/Pages/register.html">
+    <meta property="og:title" content="Register - Sweet Crumbs Bakery">
+    <meta property="og:description" content="Create your account with Sweet Crumbs Bakery for easy ordering and updates.">
+    <meta property="og:image" content="https://sweetcrumbs.co.za/Assets/cupcake1.jpeg">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://sweetcrumbs.co.za/Pages/register.html">
+    <meta property="twitter:title" content="Register - Sweet Crumbs Bakery">
+    <meta property="twitter:description" content="Create your account with Sweet Crumbs Bakery for easy ordering and updates.">
+    <meta property="twitter:image" content="https://sweetcrumbs.co.za/Assets/cupcake1.jpeg">
+    <link rel="stylesheet" href="../Css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="../Js/script.js"></script>
+    <script src="../Js/search.js"></script>
+    <script src="../Js/real-time.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Sweet Crumbs Bakery</h1>
+        <input type="checkbox" id="menu-toggle" style="display: none;">
+        <label for="menu-toggle" class="hamburger">☰</label>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="order.html">Order</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="enquiry.html">Enquiry</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Create Your Account</h2>
+            <p>Join Sweet Crumbs Bakery to easily place orders and stay updated on our fresh baked goods.</p>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" minlength="2" maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" minlength="8">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword">
+                </div>
+
+                <button type="submit">Register</button>
+                <div id="errorMessages"></div>
+            </form>
+            <div id="confirmation" style="display: none;">
+                <h3>Registration Successful!</h3>
+                <p>Welcome to Sweet Crumbs Bakery! Your account has been created.</p>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Sweet Crumbs Bakery. All rights reserved.</p>
+        <div class="social-media">
+            <a href="https://www.facebook.com/sweetcrumbsbakery" target="_blank" rel="noopener">Facebook</a>
+            <a href="https://www.instagram.com/sweetcrumbsbakery" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://twitter.com/sweetcrumbsbak" target="_blank" rel="noopener">Twitter</a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize EmailJS with your public key (replace with your actual key)
+            emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+
+            const form = document.getElementById('registerForm');
+            const errorMessages = document.getElementById('errorMessages');
+            const confirmation = document.getElementById('confirmation');
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            // Real-time validation
+            function validateField(field, fieldName, rules) {
+                const value = field.value.trim();
+                const errorElement = field.parentNode.querySelector('.field-error');
+                let errorMessage = '';
+
+                if (rules.required && !value) {
+                    errorMessage = `${fieldName} is required.`;
+                } else if (rules.minLength && value.length < rules.minLength) {
+                    errorMessage = `${fieldName} must be at least ${rules.minLength} characters.`;
+                } else if (rules.maxLength && value.length > rules.maxLength) {
+                    errorMessage = `${fieldName} must be less than ${rules.maxLength} characters.`;
+                } else if (rules.pattern && !rules.pattern.test(value)) {
+                    errorMessage = rules.errorMessage || `Please enter a valid ${fieldName.toLowerCase()}.`;
+                } else if (rules.match && value !== document.getElementById(rules.match).value) {
+                    errorMessage = rules.matchError || 'Passwords do not match.';
+                }
+
+                if (errorMessage) {
+                    if (!errorElement) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'field-error error-message';
+                        errorDiv.textContent = errorMessage;
+                        field.parentNode.appendChild(errorDiv);
+                    } else {
+                        errorElement.textContent = errorMessage;
+                        errorElement.style.display = 'block';
+                    }
+                    field.classList.add('invalid');
+                    return false;
+                } else {
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                    field.classList.remove('invalid');
+                    return true;
+                }
+            }
+
+            // Attach real-time validation
+            document.getElementById('name').addEventListener('input', function() {
+                validateField(this, 'Full Name', { required: true, minLength: 2, maxLength: 50 });
+            });
+            document.getElementById('name').addEventListener('blur', function() {
+                validateField(this, 'Full Name', { required: true, minLength: 2, maxLength: 50 });
+            });
+
+            document.getElementById('email').addEventListener('input', function() {
+                validateField(this, 'Email', { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, errorMessage: 'Please enter a valid email address.' });
+            });
+            document.getElementById('email').addEventListener('blur', function() {
+                validateField(this, 'Email', { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, errorMessage: 'Please enter a valid email address.' });
+            });
+
+            document.getElementById('password').addEventListener('input', function() {
+                validateField(this, 'Password', { required: true, minLength: 8 });
+            });
+            document.getElementById('password').addEventListener('blur', function() {
+                validateField(this, 'Password', { required: true, minLength: 8 });
+            });
+
+            document.getElementById('confirmPassword').addEventListener('input', function() {
+                validateField(this, 'Confirm Password', { required: true, match: 'password', matchError: 'Passwords do not match.' });
+            });
+            document.getElementById('confirmPassword').addEventListener('blur', function() {
+                validateField(this, 'Confirm Password', { required: true, match: 'password', matchError: 'Passwords do not match.' });
+            });
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                errorMessages.innerHTML = '';
+                errorMessages.classList.remove('error-message');
+                errorMessages.style.display = 'none';
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                let errors = [];
+
+                if (!name) errors.push('Full Name is required.');
+                else if (name.length < 2) errors.push('Full Name must be at least 2 characters.');
+                else if (name.length > 50) errors.push('Full Name must be less than 50 characters.');
+                if (!email) errors.push('Email is required.');
+                else if (!/\S+@\S+\.\S+/.test(email)) errors.push('Email is invalid.');
+                if (!password) errors.push('Password is required.');
+                else if (password.length < 8) errors.push('Password must be at least 8 characters long.');
+                if (password !== confirmPassword) errors.push('Passwords do not match.');
+
+                if (errors.length > 0) {
+                    errorMessages.classList.add('error-message');
+                    errorMessages.innerHTML = '<ul>' + errors.map(e => '<li>' + e + '</li>').join('') + '</ul>';
+                    errorMessages.style.display = 'block';
+                    return;
+                }
+
+                // Show loading state
+                submitButton.classList.add('loading');
+                submitButton.innerHTML = '<span class="loading-spinner"></span>Registering...';
+
+                // Prepare EmailJS template parameters
+                const templateParams = {
+                    from_name: name,
+                    from_email: email,
+                    password: password, // Note: In production, never send passwords via email
+                    to_email: 'info@sweetcrumbs.co.za'
+                };
+
+                // Send email using EmailJS
+                emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams) // Replace with your service and template IDs
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        form.style.display = 'none';
+                        confirmation.style.display = 'block';
+                        submitButton.classList.remove('loading');
+                        submitButton.innerHTML = 'Register';
+                    })
+                    .catch(function(error) {
+                        console.log('FAILED...', error);
+                        errorMessages.classList.add('error-message');
+                        errorMessages.innerHTML = '<p>There was an error registering your account. Please try again later.</p>';
+                        errorMessages.style.display = 'block';
+                        submitButton.classList.remove('loading');
+                        submitButton.innerHTML = 'Register';
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
